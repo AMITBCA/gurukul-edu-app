@@ -48,7 +48,13 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+        const indexPath = path.resolve(__dirname, '../frontend', 'dist', 'index.html');
+        res.sendFile(indexPath, (err) => {
+            if (err) {
+                console.error("❌ Error sending index.html:", err);
+                res.status(500).send("Frontend build not found. Please check build logs.");
+            }
+        });
     });
 }
 
