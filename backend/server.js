@@ -34,11 +34,6 @@ app.use(express.urlencoded({ limit: '500mb', extended: true }));
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Basic Route for root
-app.get('/', (res) => {
-    res.send('Gurukul Excellence Backend Setup Complete with Real-Time Support');
-});
-
 // Initializing API Routes
 app.use('/api', require('./routes/index'));
 
