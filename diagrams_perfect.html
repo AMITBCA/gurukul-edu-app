@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gurukul Edu WebApp - Project Diagrams</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            padding: 20px;
+        }
+        .diagram-container {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .instructions {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+    <!-- Load Mermaid -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+</head>
+<body>
+
+    <div class="instructions">
+        <strong>📌 How to use these diagrams for your Word File:</strong><br>
+        1. Let the diagrams load completely on this page.<br>
+        2. Right-click on any diagram you want to use.<br>
+        3. Select <strong>"Copy image"</strong>.<br>
+        4. Open your Word Document (`Gurukul_Project_Documentation.docx`) and press <strong>Ctrl+V</strong> (Paste) in the blank space provided for the diagram.
+    </div>
+
+    <!-- 1. SYSTEM FLOWCHART -->
+    <div class="diagram-container">
+        <h2>1. System Flowchart</h2>
+        <div class="mermaid">
+            graph TD
+            A[Start] --> B(Login Page)
+            B --> C{Check Role}
+            
+            C -->|Admin| D[Admin Dashboard]
+            D --> D1(Manage Teachers)
+            D --> D2(Manage Students)
+            D --> D3(Manage Batches)
+            D --> D4(Manage Fees)
+            
+            C -->|Teacher| E[Teacher Dashboard]
+            E --> E1(Mark Attendance)
+            E --> E2(Upload Material)
+            E --> E3(Conduct Tests)
+            
+            C -->|Student| F[Student Dashboard]
+            F --> F1(View Attendance)
+            F --> F2(Download Material)
+            F --> F3(View Results)
+            F --> F4(Check Fee Status)
+            
+            D1 --> G[Logout]
+            E1 --> G
+            F1 --> G
+            G --> A
+        </div>
+    </div>
+
+    <!-- 2. DFD LEVEL 0 (CONTEXT DIAGRAM) -->
+    <div class="diagram-container">
+        <h2>2. Data Flow Diagram (DFD) - Level 0 (Context Diagram)</h2>
+        <div class="mermaid">
+            flowchart LR
+            Admin((Admin))
+            Teacher((Teacher))
+            Student((Student))
+            System[Gurukul Edu WebApp System]
+            
+            Admin -- Credentials, User Data, Batch Data, Fee Data --> System
+            System -- Reports, Status Updates --> Admin
+            
+            Teacher -- Credentials, Attendance, Study Material, Marks --> System
+            System -- Student Info, Batch Details --> Teacher
+            
+            Student -- Credentials --> System
+            System -- Notes, Results, Fee Status, Attendance Status --> Student
+        </div>
+    </div>
+
+    <!-- 3. DFD LEVEL 1 -->
+    <div class="diagram-container">
+        <h2>3. Data Flow Diagram (DFD) - Level 1</h2>
+        <div class="mermaid">
+            flowchart TD
+            Admin((Admin))
+            Teacher((Teacher))
+            Student((Student))
+            
+            P1((1.0 Authentication))
+            P2((2.0 User Management))
+            P3((3.0 Academic Ops))
+            P4((4.0 Fee Management))
+            
+            DB[(Database: MongoDB)]
+            
+            Admin -->|Login Info| P1
+            Teacher -->|Login Info| P1
+            Student -->|Login Info| P1
+            
+            P1 <-->|Verify| DB
+            
+            Admin -->|Add/Edit Users| P2
+            P2 -->|Save Data| DB
+            
+            Teacher -->|Upload Material, Marks, Attendance| P3
+            P3 -->|Store| DB
+            
+            Student -->|Request View| P3
+            DB -->|Fetch Data| P3
+            P3 -->|Show Material/Results| Student
+            
+            Admin -->|Assign Fees| P4
+            P4 -->|Update Status| DB
+            DB -->|Check Pending| P4
+            P4 -->|Show Status| Student
+        </div>
+    </div>
+
+    <!-- 4. DFD LEVEL 2 -->
+    <div class="diagram-container">
+        <h2>4. Data Flow Diagram (DFD) - Level 2 (Academic Operations 3.0)</h2>
+        <div class="mermaid">
+            flowchart TD
+            Teacher((Teacher))
+            Student((Student))
+            
+            P3_1((3.1 Manage Attendance))
+            P3_2((3.2 Upload Material))
+            P3_3((3.3 Manage Tests))
+            
+            D1[(Attendance DB)]
+            D2[(Materials DB)]
+            D3[(Tests DB)]
+            
+            Teacher -->|Submit Present/Absent| P3_1
+            P3_1 -->|Record| D1
+            D1 -->|Fetch Report| P3_1
+            P3_1 -->|Display Attendance| Student
+            
+            Teacher -->|Upload PDF/Notes| P3_2
+            P3_2 -->|Save File URL| D2
+            D2 -->|Fetch List| P3_2
+            P3_2 -->|Download Link| Student
+            
+            Teacher -->|Enter Marks| P3_3
+            P3_3 -->|Save Result| D3
+            D3 -->|Generate Report| P3_3
+            P3_3 -->|View Score| Student
+        </div>
+    </div>
+
+    <!-- 5. ER DIAGRAM -->
+    <div class="diagram-container">
+        <h2>5. Entity-Relationship (ER) Diagram</h2>
+        <div class="mermaid">
+            erDiagram
+            USER ||--o{ BATCH : "Enrolled/Teaches"
+            USER ||--o{ ATTENDANCE : "Marks/Has"
+            USER ||--o{ MATERIAL : "Uploads/Views"
+            USER ||--o{ TEST : "Evaluates/Attempts"
+            USER ||--o{ FEE : "Pays"
+            
+            BATCH ||--o{ ATTENDANCE : "Contains"
+            BATCH ||--o{ MATERIAL : "Contains"
+            BATCH ||--o{ TEST : "Contains"
+            BATCH ||--o{ FEE : "Contains"
+            
+            USER {
+                ObjectId _id PK
+                String name
+                String email
+                String password
+                String role
+                String enrollmentNumber
+            }
+            
+            BATCH {
+                ObjectId _id PK
+                String name
+                String description
+                String status
+            }
+            
+            ATTENDANCE {
+                ObjectId _id PK
+                ObjectId studentId FK
+                ObjectId batchId FK
+                Date date
+                String status
+            }
+            
+            MATERIAL {
+                ObjectId _id PK
+                String title
+                ObjectId teacherId FK
+                ObjectId batchId FK
+                String fileUrl
+            }
+            
+            TEST {
+                ObjectId _id PK
+                String testName
+                ObjectId teacherId FK
+                ObjectId batchId FK
+                Number totalMarks
+                Array results
+            }
+            
+            FEE {
+                ObjectId _id PK
+                ObjectId studentId FK
+                ObjectId batchId FK
+                Number totalAmount
+                Number amountPaid
+                String status
+            }
+        </div>
+    </div>
+
+    <!-- 6. UML USE CASE DIAGRAM -->
+    <div class="diagram-container">
+        <h2>6. UML Use Case Diagram</h2>
+        <div class="mermaid">
+            flowchart LR
+            subgraph Gurukul Edu WebApp
+                UC1(Login)
+                UC2(Manage Teachers)
+                UC3(Manage Students)
+                UC4(Manage Batches)
+                UC5(Mark Attendance)
+                UC6(Upload Materials)
+                UC7(Manage Tests & Results)
+                UC8(Assign Fees)
+                UC9(View Attendance)
+                UC10(Download Material)
+                UC11(View Results)
+                UC12(View Fee Status)
+            end
+            
+            Admin((Admin))
+            Teacher((Teacher))
+            Student((Student))
+            
+            Admin --> UC1
+            Admin --> UC2
+            Admin --> UC3
+            Admin --> UC4
+            Admin --> UC8
+            
+            Teacher --> UC1
+            Teacher --> UC5
+            Teacher --> UC6
+            Teacher --> UC7
+            
+            Student --> UC1
+            Student --> UC9
+            Student --> UC10
+            Student --> UC11
+            Student --> UC12
+        </div>
+    </div>
+
+</body>
+</html>

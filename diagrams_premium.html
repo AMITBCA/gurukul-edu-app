@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gurukul Edu WebApp - Premium Diagrams</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+        .diagram-container {
+            background-color: #ffffff;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #e1e4e8;
+        }
+        h2 {
+            color: #1a365d;
+            border-bottom: 3px solid #2b6cb0;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .instructions {
+            background-color: #ebf8ff;
+            padding: 20px;
+            border-left: 6px solid #3182ce;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <!-- Load Mermaid -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: { curve: 'basis', htmlLabels: true },
+            er: { useMaxWidth: false }
+        });
+    </script>
+</head>
+<body>
+
+    <div class="instructions">
+        <strong>🚀 ENTERPRISE GRADE DIAGRAMS (HIGH RESOLUTION)</strong><br>
+        1. Let the complex diagrams render completely.<br>
+        2. Right-click the diagram and select <strong>"Copy image"</strong> or use snipping tool for highest quality.<br>
+        3. Paste directly into the designated spaces in the Premium Word Document.
+    </div>
+
+    <!-- 1. ADVANCED SYSTEM ARCHITECTURE FLOWCHART -->
+    <div class="diagram-container">
+        <h2>1. System Architecture & Flowchart</h2>
+        <div class="mermaid">
+            flowchart TD
+            Client([Client Browser / Mobile])
+            CDN[Cloudinary CDN]
+            LB{Load Balancer / Router}
+            Auth[JWT Authentication Middleware]
+            
+            subgraph Controller Layer
+                AdminCtrl(Admin Controller)
+                TeacherCtrl(Teacher Controller)
+                StudentCtrl(Student Controller)
+                AuthCtrl(Auth Controller)
+            end
+
+            subgraph Database Layer
+                DB[(MongoDB Atlas Cluster)]
+                M_User[User Model]
+                M_Batch[Batch Model]
+                M_Att[Attendance Model]
+                M_Mat[Material Model]
+            end
+
+            Client -->|HTTP Request| LB
+            LB -->|/api/auth| AuthCtrl
+            LB -->|Secured Routes| Auth
+            
+            Auth -->|Token Valid| AdminCtrl
+            Auth -->|Token Valid| TeacherCtrl
+            Auth -->|Token Valid| StudentCtrl
+            Auth -->|Invalid Token| 401([401 Unauthorized])
+            
+            AdminCtrl --> M_User & M_Batch
+            TeacherCtrl --> M_Att & M_Mat
+            StudentCtrl --> M_Att & M_Mat
+            
+            M_User & M_Batch & M_Att & M_Mat -.-> DB
+            
+            TeacherCtrl -->|Upload Files| CDN
+            CDN -.->|Return Secure URL| TeacherCtrl
+        </div>
+    </div>
+
+    <!-- 2. DFD LEVEL 0 (CONTEXT DIAGRAM) -->
+    <div class="diagram-container">
+        <h2>2. Data Flow Diagram (DFD) - Level 0 (Context)</h2>
+        <div class="mermaid">
+            flowchart LR
+            Admin[/Administrator/]
+            Teacher[/Teacher/]
+            Student[/Student/]
+            Cloud[/Cloudinary Storage/]
+            
+            System((0.0<br>Gurukul Edu WebApp<br>System))
+            
+            Admin -- "Auth Details, User Profiles, Batch Info, Fee Config" --> System
+            System -- "System Reports, Analytics, Success/Error Status" --> Admin
+            
+            Teacher -- "Auth Details, Attendance Records, PDFs/Notes, Test Marks" --> System
+            System -- "Assigned Batches, Student Lists" --> Teacher
+            
+            Student -- "Auth Details, View Requests" --> System
+            System -- "Study Materials, Attendance Status, Results, Fee Due" --> Student
+            
+            System -- "Media Files" --> Cloud
+            Cloud -- "Hosted URLs" --> System
+        </div>
+    </div>
+
+    <!-- 3. DFD LEVEL 1 -->
+    <div class="diagram-container">
+        <h2>3. Data Flow Diagram (DFD) - Level 1</h2>
+        <div class="mermaid">
+            flowchart TD
+            Admin[/Admin/]
+            Teacher[/Teacher/]
+            Student[/Student/]
+            
+            P1((1.0<br>Authentication<br>& Authz))
+            P2((2.0<br>User & Batch<br>Management))
+            P3((3.0<br>Academic<br>Operations))
+            P4((4.0<br>Fee & Account<br>Management))
+            
+            DB_Users[(D1 Users Data)]
+            DB_Academic[(D2 Academic Data)]
+            DB_Financial[(D3 Financial Data)]
+            
+            Admin -->|Login Credentials| P1
+            Teacher -->|Login Credentials| P1
+            Student -->|Login Credentials| P1
+            P1 -->|Store/Verify Tokens| DB_Users
+            P1 -->|Session Status| Admin & Teacher & Student
+            
+            Admin -->|Create Users/Batches| P2
+            P2 -->|Update User/Batch| DB_Users
+            
+            Teacher -->|Mark Attendance, Upload Notes, Input Marks| P3
+            P3 -->|Store Attendance/Files/Marks| DB_Academic
+            
+            Student -->|Request Material/Results| P3
+            DB_Academic -->|Retrieve Data| P3
+            P3 -->|Serve Material/Results| Student
+            
+            Admin -->|Assign Fees| P4
+            P4 -->|Store Fee Record| DB_Financial
+            Student -->|Check Dues| P4
+            DB_Financial -->|Retrieve Status| P4
+            P4 -->|Show Pending Fees| Student
+        </div>
+    </div>
+
+    <!-- 4. DFD LEVEL 2 -->
+    <div class="diagram-container">
+        <h2>4. Data Flow Diagram (DFD) - Level 2 (Process 3.0 Academic Ops)</h2>
+        <div class="mermaid">
+            flowchart TD
+            Teacher[/Teacher/]
+            Student[/Student/]
+            Cloud[/Cloudinary API/]
+            
+            P31((3.1<br>Process<br>Attendance))
+            P32((3.2<br>Manage<br>Study Materials))
+            P33((3.3<br>Process<br>Test Results))
+            
+            D_Att[(D2.1 Attendance)]
+            D_Mat[(D2.2 Materials)]
+            D_Test[(D2.3 Tests)]
+            
+            Teacher -->|Submit Daily Attendance| P31
+            P31 -->|Record Present/Absent| D_Att
+            Student -->|View Request| P31
+            D_Att -->|Fetch| P31
+            P31 -->|Attendance Summary| Student
+            
+            Teacher -->|Upload File| P32
+            P32 -->|Multipart Form Data| Cloud
+            Cloud -->|Secure HTTPS URL| P32
+            P32 -->|Store URL & Meta| D_Mat
+            Student -->|Download Request| P32
+            D_Mat -->|Fetch URL| P32
+            P32 -->|Provide File Access| Student
+            
+            Teacher -->|Upload Excel/Marks| P33
+            P33 -->|Save Result Array| D_Test
+            D_Test -->|Fetch Result| P33
+            P33 -->|Generate Marksheet| Student
+        </div>
+    </div>
+
+    <!-- 5. ER DIAGRAM (CROW'S FOOT NOTATION) -->
+    <div class="diagram-container">
+        <h2>5. Entity-Relationship (ER) Diagram</h2>
+        <div class="mermaid">
+            erDiagram
+            USER {
+                ObjectId _id PK
+                String name
+                String email
+                String password
+                String role
+                String profilePicture
+                Boolean isVerified
+            }
+            
+            BATCH {
+                ObjectId _id PK
+                String name
+                String description
+                String status
+            }
+            
+            ATTENDANCE {
+                ObjectId _id PK
+                ObjectId studentId FK
+                ObjectId batchId FK
+                ObjectId markedBy FK
+                Date date
+                String status
+            }
+            
+            MATERIAL {
+                ObjectId _id PK
+                String title
+                ObjectId teacherId FK
+                ObjectId batchId FK
+                String fileUrl
+                String fileType
+            }
+            
+            TEST {
+                ObjectId _id PK
+                String testName
+                ObjectId teacherId FK
+                ObjectId batchId FK
+                Number totalMarks
+                Date date
+            }
+            
+            FEE {
+                ObjectId _id PK
+                ObjectId studentId FK
+                ObjectId batchId FK
+                Number totalAmount
+                Number amountPaid
+                String status
+            }
+
+            %% Relationships
+            USER ||--o{ BATCH : "Enrolled in / Teaches"
+            USER ||--o{ ATTENDANCE : "Belongs to / Marks"
+            USER ||--o{ MATERIAL : "Uploads"
+            USER ||--o{ FEE : "Owes"
+            
+            BATCH ||--o{ ATTENDANCE : "Contains"
+            BATCH ||--o{ MATERIAL : "Has"
+            BATCH ||--o{ TEST : "Has"
+            BATCH ||--o{ FEE : "Applies to"
+            
+            TEST ||--o{ USER : "Evaluates"
+        </div>
+    </div>
+
+    <!-- 6. UML CLASS DIAGRAM -->
+    <div class="diagram-container">
+        <h2>6. UML Class Diagram</h2>
+        <div class="mermaid">
+            classDiagram
+            class User {
+                -ObjectId _id
+                +String name
+                +String email
+                -String password
+                +String role
+                +Boolean isVerified
+                +login(email, password) String JWT
+                +updateProfile() void
+            }
+            class Batch {
+                -ObjectId _id
+                +String name
+                +Array~ObjectId~ teachers
+                +Array~ObjectId~ students
+                +String status
+                +addStudent(ObjectId studentId) void
+                +removeStudent(ObjectId studentId) void
+            }
+            class Attendance {
+                -ObjectId _id
+                +ObjectId studentId
+                +ObjectId batchId
+                +Date date
+                +String status
+                +markAttendance() Boolean
+                +getAttendanceReport() Array
+            }
+            class Material {
+                -ObjectId _id
+                +String title
+                +String fileUrl
+                +String fileType
+                +uploadToCloudinary() String
+                +download() File
+            }
+            class Fee {
+                -ObjectId _id
+                +Number totalAmount
+                +Number amountPaid
+                +String status
+                +updatePayment(Number amount) Boolean
+                +calculateDue() Number
+            }
+
+            User "1" -- "*" Batch : manages/attends
+            User "1" -- "*" Attendance : records
+            Batch "1" *-- "*" Material : contains
+            Batch "1" *-- "*" Fee : generates
+            User "1" -- "*" Fee : pays
+        </div>
+    </div>
+
+    <!-- 7. UML SEQUENCE DIAGRAM -->
+    <div class="diagram-container">
+        <h2>7. UML Sequence Diagram (Authentication & File Upload Flow)</h2>
+        <div class="mermaid">
+            sequenceDiagram
+            actor Teacher
+            participant Frontend as React UI
+            participant API as Node/Express API
+            participant Auth as Auth Middleware
+            participant Cloud as Cloudinary
+            participant DB as MongoDB
+
+            %% Login Flow
+            rect rgb(240, 248, 255)
+            Note over Teacher,DB: 1. Authentication Flow
+            Teacher->>Frontend: Enter Email & Password
+            Frontend->>API: POST /api/auth/login
+            API->>DB: Find User by Email
+            DB-->>API: Return Encrypted Password
+            API->>API: bcrypt.compare()
+            API-->>Frontend: Return JWT Token (200 OK)
+            end
+
+            %% Upload Flow
+            rect rgb(245, 255, 250)
+            Note over Teacher,DB: 2. Secured Material Upload Flow
+            Teacher->>Frontend: Select PDF & click Upload
+            Frontend->>API: POST /api/material (with JWT header)
+            API->>Auth: Verify Token (JWT)
+            Auth-->>API: Token Valid (req.user = Teacher)
+            API->>Cloud: Upload PDF Stream
+            Cloud-->>API: Return Secure URL (https://res.cloudinary...)
+            API->>DB: Save Title, TeacherID, BatchID, URL
+            DB-->>API: Return Document Info
+            API-->>Frontend: Success Response (201 Created)
+            Frontend-->>Teacher: Show Success Toast & Update UI
+            end
+        </div>
+    </div>
+
+</body>
+</html>

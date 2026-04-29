@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gurukul Edu WebApp - Massive Diagrams Collection</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; padding: 20px; }
+        .diagram-container { background-color: white; padding: 30px; margin-bottom: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; margin-bottom: 25px; }
+        .instructions { background-color: #e3f2fd; padding: 20px; border-left: 5px solid #1976d2; margin-bottom: 30px; font-size: 16px; }
+        .mermaid { display: flex; justify-content: center; }
+    </style>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+</head>
+<body>
+
+    <div class="instructions">
+        <strong>🚀 MASSIVE 30+ PAGE DOCUMENT DIAGRAMS</strong><br>
+        Wait for diagrams to render fully. Right-click > "Copy image" and paste into the designated spaces in your Word document.
+    </div>
+
+    <!-- 1. SYSTEM FLOWCHART -->
+    <div class="diagram-container">
+        <h2>1. System Flowchart (Detailed)</h2>
+        <div class="mermaid">
+            flowchart TD
+            Start([Start Application]) --> AppLoad[Frontend React App Initializes]
+            AppLoad --> TokenCheck{Is JWT Token Valid?}
+            TokenCheck -- Yes --> RoleCheck{Check User Role}
+            TokenCheck -- No --> Login[Redirect to Login Page]
+            
+            Login --> Input[User enters Credentials]
+            Input --> AuthAPI[Node.js Auth Controller]
+            AuthAPI --> DBAuth[(MongoDB: Verify Hash)]
+            DBAuth --> Valid{Is Valid?}
+            Valid -- No --> Error[Show Error Toast] --> Login
+            Valid -- Yes --> GenToken[Generate JWT] --> RoleCheck
+            
+            RoleCheck -- Admin --> AdminDash[Load Admin Modules]
+            RoleCheck -- Teacher --> TeacherDash[Load Teacher Modules]
+            RoleCheck -- Student --> StudentDash[Load Student Modules]
+            
+            AdminDash --> MngUsers(Manage Users & Batches)
+            TeacherDash --> MngAcad(Upload Notes, Mark Attendance)
+            StudentDash --> ViewAcad(Download Notes, View Results)
+        </div>
+    </div>
+
+    <!-- 2. DFD 0 -->
+    <div class="diagram-container">
+        <h2>2. Data Flow Diagram - Level 0</h2>
+        <div class="mermaid">
+            flowchart LR
+            Admin[/Administrator/]
+            Teacher[/Teacher/]
+            Student[/Student/]
+            Cloud[/Cloud Storage/]
+            
+            System((0.0<br>Gurukul ERP<br>System))
+            
+            Admin -- Credentials, Config Data --> System
+            System -- Reports, Status --> Admin
+            
+            Teacher -- Files, Attendance, Marks --> System
+            System -- Batch Details --> Teacher
+            
+            Student -- Requests --> System
+            System -- Results, PDFs, Due Fees --> Student
+            System -- File Stream --> Cloud
+            Cloud -- Secure URLs --> System
+        </div>
+    </div>
+
+    <!-- 3. DFD 1 -->
+    <div class="diagram-container">
+        <h2>3. Data Flow Diagram - Level 1</h2>
+        <div class="mermaid">
+            flowchart TD
+            U1[/Users/]
+            P1((1.0 Auth))
+            P2((2.0 Admin Ops))
+            P3((3.0 Academic))
+            P4((4.0 Finance))
+            DB[(MongoDB)]
+            
+            U1 -->|Login Info| P1
+            P1 <-->|Verify| DB
+            
+            U1 -->|Admin Requests| P2
+            P2 -->|CRUD Users/Batches| DB
+            
+            U1 -->|Teacher/Student Requests| P3
+            P3 -->|Store/Fetch Material & Attendance| DB
+            
+            U1 -->|Fee Requests| P4
+            P4 -->|Manage Payments| DB
+        </div>
+    </div>
+
+    <!-- 4. DFD 2 -->
+    <div class="diagram-container">
+        <h2>4. Data Flow Diagram - Level 2 (Academic Ops)</h2>
+        <div class="mermaid">
+            flowchart TD
+            Teacher[/Teacher/]
+            Student[/Student/]
+            P1((3.1 Attendance))
+            P2((3.2 Material))
+            P3((3.3 Tests))
+            DB[(Database)]
+            
+            Teacher -->|Mark Status| P1
+            P1 -->|Save| DB
+            Student -->|Fetch Status| P1
+            
+            Teacher -->|Upload File| P2
+            P2 -->|Save URL| DB
+            Student -->|Download| P2
+            
+            Teacher -->|Input Score| P3
+            P3 -->|Save Marks| DB
+            Student -->|View Score| P3
+        </div>
+    </div>
+
+    <!-- 5. ERD -->
+    <div class="diagram-container">
+        <h2>5. ER Diagram</h2>
+        <div class="mermaid">
+            erDiagram
+            USER { ObjectId _id String role String email }
+            BATCH { ObjectId _id String name }
+            ATTENDANCE { ObjectId _id Date date String status }
+            MATERIAL { ObjectId _id String fileUrl }
+            FEE { ObjectId _id Number amount }
+            
+            USER ||--o{ BATCH : joins
+            USER ||--o{ ATTENDANCE : marks
+            BATCH ||--o{ ATTENDANCE : contains
+            BATCH ||--o{ MATERIAL : has
+            BATCH ||--o{ FEE : generates
+        </div>
+    </div>
+
+    <!-- 6. UML CLASS -->
+    <div class="diagram-container">
+        <h2>6. UML Class Diagram</h2>
+        <div class="mermaid">
+            classDiagram
+            class User { +String email +String password +login() }
+            class Batch { +String name +Array students +addStudent() }
+            class Material { +String url +upload() +download() }
+            class Attendance { +Date date +String status +mark() }
+            
+            User "1" -- "*" Batch
+            Batch "1" *-- "*" Material
+            User "1" -- "*" Attendance
+        </div>
+    </div>
+
+    <!-- 7. UML SEQUENCE -->
+    <div class="diagram-container">
+        <h2>7. UML Sequence Diagram (Upload Flow)</h2>
+        <div class="mermaid">
+            sequenceDiagram
+            actor T as Teacher
+            participant C as Client (React)
+            participant S as Server (Node)
+            participant DB as Database
+            participant CL as Cloudinary
+            
+            T->>C: Select File & Upload
+            C->>S: POST /upload (File + JWT)
+            S->>S: Verify JWT
+            S->>CL: Stream to Cloud
+            CL-->>S: Return HTTPS URL
+            S->>DB: Save URL & Metadata
+            DB-->>S: Confirm Save
+            S-->>C: 201 Created
+            C-->>T: Show Success Message
+        </div>
+    </div>
+
+    <!-- 8. UML ACTIVITY DIAGRAM (NEW) -->
+    <div class="diagram-container">
+        <h2>8. UML Activity Diagram (Admin creating a Teacher)</h2>
+        <div class="mermaid">
+            stateDiagram-v2
+            [*] --> Login
+            Login --> AdminDashboard : Auth Success
+            AdminDashboard --> NavigateToUsers : Click Users Tab
+            NavigateToUsers --> OpenCreateModal : Click Add Teacher
+            OpenCreateModal --> FillForm : Enter Name, Email
+            FillForm --> Submit : Click Save
+            
+            state Submit {
+                ValidateData --> GenerateHash
+                GenerateHash --> SaveToDB
+            }
+            
+            Submit --> SuccessMessage : DB Responds 201
+            SuccessMessage --> AdminDashboard
+            AdminDashboard --> [*]
+        </div>
+    </div>
+
+</body>
+</html>

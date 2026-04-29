@@ -1,0 +1,47 @@
+- [x] Phase 1: Project Setup & Foundation
+- [x] Phase 2: Authentication & Authorization Flow
+  - [x] Create User Database Model
+  - [x] Implement Backend Auth APIs
+  - [x] Build Frontend Login/Register Pages
+  - [x] Implementation of Google OAuth
+  - [x] Password Reset & Email Verification
+- [x] Phase 3: Core Management Features (Admin)
+  - [x] Create Batch & Enrollment Models
+  - [x] Build Admin Dashboard UI
+  - [x] User Management (Approve/Delete)
+  - [x] Batch Management (CRUD)
+- [x] Phase 4: Teacher Academic Operations
+  - [x] Setup Cloudinary integration
+  - [x] Create Study Material Model & Upload API
+  - [x] Build Teacher Dashboard Sidebar & Navigation
+  - [x] Build Material Management UI for Teachers
+  - [x] Create Attendance Models & API
+  - [x] Build Attendance Marking UI (Batch-wise)
+- [x] Phase 5: Student Experience & Portal
+  - [x] Build Student Dashboard (Overview of Attendance/Materials)
+  - [x] Build Material Library Viewer
+  - [x] Create Test & Performance Models & API
+  - [x] Build Student Test Result Analytics (Charts)
+- [x] Phase 6: Institutional Features & Polish
+  - [x] Fee Tracking System
+    - [x] Create Fee Model
+    - [x] Build Fee Controller & API Routes
+    - [x] Create Admin Fee Management UI
+    - [x] Create Student Fee Status UI
+    - [x] Enhance Fee UI & Logic with Stats and Premium Design
+    - [x] Enhance Fee UI & Logic with Stats and Premium Design
+  - [x] PWA & Offline Support
+  - [x] Performance Optimization (SEO, Lazy Loading)
+  - [x] Final UI/UX Polish
+
+- [x] Phase 7: Automated Notifications & Communication
+  - [x] Create `NotificationService` (Email structure, SMS/WhatsApp ready)
+  - [x] Install `node-cron` and Setup Cron Job for Fee Due Reminders
+  - [x] Implement Absent Alerts (Triggered in Attendance Controller)
+  - [x] Implement New Test Results Alerts (Triggered in Test Controller)
+
+- [x] Phase 7: Advanced Analytics & Reporting
+  - [x] Initialize `recharts` library in Frontend
+  - [x] Create `analyticsController.js` and `/api/analytics` routes
+  - [x] Build `AnalyticsDashboard.jsx` component
+  - [x] Integrate Analytics into `AdminDashboard.jsx` sidebar
