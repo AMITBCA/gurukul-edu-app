@@ -45,5 +45,8 @@
     "globals": "^16.5.0",
     "postcss": "^8.5.8",
     "vite-plugin-pwa": "^1.2.0"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
