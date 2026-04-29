@@ -77,28 +77,35 @@ const Footer = () => {
 
                 {/* Project Team Credits */}
                 <div className="pt-12 mb-10 border-t border-slate-800/50">
-                    <div className="bg-slate-900/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-8 group">
-                        <div className="flex flex-col md:flex-row items-center gap-6">
-                            <div className="relative">
+                    <div className="bg-slate-900/40 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-slate-800/50 flex flex-col lg:flex-row items-center justify-between gap-10 group">
+                        <div className="flex flex-col md:flex-row items-center gap-8 w-full lg:w-auto">
+                            {/* Professor Credit */}
+                            <div className="relative w-full md:w-auto">
                                 <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                                <div className="relative px-6 py-2 bg-slate-950 rounded-xl leading-none flex items-center divide-x divide-slate-800">
-                                    <span className="pr-4 text-indigo-400 font-bold tracking-wide">Project Guide</span>
-                                    <span className="pl-4 text-slate-100 font-black tracking-tight">Prof. Amit Raval</span>
+                                <div className="relative px-4 py-3 md:px-6 md:py-2 bg-slate-950 rounded-xl leading-none flex items-center justify-center divide-x divide-slate-800">
+                                    <span className="pr-4 text-indigo-400 font-bold tracking-wide text-xs md:text-sm whitespace-nowrap">Project Guide</span>
+                                    <span className="pl-4 text-slate-100 font-black tracking-tight text-sm md:text-base whitespace-nowrap">Prof. Amit Raval</span>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <div className="h-px w-8 bg-slate-800"></div>
-                                <span className="text-slate-500 font-black text-xs uppercase tracking-[0.2em]">Developed by</span>
-                                <div className="flex flex-wrap justify-center gap-4">
-                                    {['Siddhi', 'Shantiben', 'Vanitaben'].map((name) => (
-                                        <span key={name} className="px-4 py-1.5 bg-slate-900/80 rounded-full text-indigo-300 font-bold text-sm border border-indigo-500/20 hover:border-indigo-500/50 hover:text-white transition-all cursor-default">
-                                            {name}
-                                        </span>
-                                    ))}
+
+                            {/* Students Credit */}
+                            <div className="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
+                                <div className="hidden md:block h-px w-8 bg-slate-800"></div>
+                                <div className="flex flex-col items-center md:items-start gap-4">
+                                    <span className="text-slate-500 font-black text-[10px] uppercase tracking-[0.3em] w-full text-center md:text-left">Developed by</span>
+                                    <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                                        {['Siddhi', 'Shantiben', 'Vanitaben'].map((name) => (
+                                            <span key={name} className="px-5 py-2 bg-slate-900/80 rounded-full text-indigo-300 font-bold text-xs border border-indigo-500/20 hover:border-indigo-500/50 hover:text-white transition-all cursor-default shadow-sm hover:shadow-indigo-500/10">
+                                                {name}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="hidden lg:block text-slate-700 font-black italic text-xl select-none opacity-20 group-hover:opacity-40 transition-opacity">
+                        
+                        {/* Team Name - Hidden on small mobile, shown on large screens */}
+                        <div className="hidden sm:block lg:block text-slate-700 font-black italic text-xl select-none opacity-10 group-hover:opacity-30 transition-opacity">
                             Gurukul Edu Team
                         </div>
                     </div>
