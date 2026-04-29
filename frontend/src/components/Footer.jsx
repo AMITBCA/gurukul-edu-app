@@ -75,6 +75,35 @@ const Footer = () => {
                     </div>
                 </div>
 
+                {/* Project Team Credits */}
+                <div className="pt-12 mb-10 border-t border-slate-800/50">
+                    <div className="bg-slate-900/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-8 group">
+                        <div className="flex flex-col md:flex-row items-center gap-6">
+                            <div className="relative">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                                <div className="relative px-6 py-2 bg-slate-950 rounded-xl leading-none flex items-center divide-x divide-slate-800">
+                                    <span className="pr-4 text-indigo-400 font-bold tracking-wide">Project Guide</span>
+                                    <span className="pl-4 text-slate-100 font-black tracking-tight">Prof. Amit Raval</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="h-px w-8 bg-slate-800"></div>
+                                <span className="text-slate-500 font-black text-xs uppercase tracking-[0.2em]">Developed by</span>
+                                <div className="flex flex-wrap justify-center gap-4">
+                                    {['Siddhi', 'Shantiben', 'Vanitaben'].map((name) => (
+                                        <span key={name} className="px-4 py-1.5 bg-slate-900/80 rounded-full text-indigo-300 font-bold text-sm border border-indigo-500/20 hover:border-indigo-500/50 hover:text-white transition-all cursor-default">
+                                            {name}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="hidden lg:block text-slate-700 font-black italic text-xl select-none opacity-20 group-hover:opacity-40 transition-opacity">
+                            Gurukul Edu Team
+                        </div>
+                    </div>
+                </div>
+
                 <div className="pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center">
                     <div className="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-4 md:mb-0">
                         &copy; {new Date().getFullYear()} Gurukul Excellence. All rights reserved.
