@@ -34,10 +34,10 @@ const StudentDashboard = () => {
         try {
             const token = localStorage.getItem('token');
             const [userRes, dashboardRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/auth/me', {
+                axios.get('/api/auth/me', {
                     headers: { Authorization: `Bearer ${token}` }
                 }),
-                axios.get('http://localhost:5000/api/student/dashboard', {
+                axios.get('/api/student/dashboard', {
                     headers: { Authorization: `Bearer ${token}` }
                 })
             ]);

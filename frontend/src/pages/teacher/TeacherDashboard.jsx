@@ -37,7 +37,7 @@ const TeacherDashboard = () => {
         try {
             const token = localStorage.getItem('token');
             const headers = token ? { Authorization: `Bearer ${token}` } : {};
-            const API_BASE = 'http://localhost:5000';
+            const API_BASE = '';
 
             const [statsRes, batchesRes] = await Promise.all([
                 axios.get(`${API_BASE}/api/teacher/stats`, { headers }),

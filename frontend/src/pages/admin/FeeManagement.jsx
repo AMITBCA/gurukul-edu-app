@@ -33,7 +33,7 @@ const FeeManagement = () => {
     const fetchFees = async () => {
         try {
             const token = localStorage.getItem('token');
-            const { data } = await axios.get('http://localhost:5000/api/fees', {
+            const { data } = await axios.get('/api/fees', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const fetchedFees = data.data;
@@ -68,8 +68,8 @@ const FeeManagement = () => {
         try {
             const token = localStorage.getItem('token');
             const [batchRes, studentRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/batches', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/admin/users?role=student', { headers: { Authorization: `Bearer ${token}` } })
+                axios.get('/api/batches', { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get('/api/admin/users?role=student', { headers: { Authorization: `Bearer ${token}` } })
             ]);
             setBatches(batchRes.data.data || batchRes.data || []);
             setStudents(studentRes.data.data || studentRes.data || []);
@@ -82,7 +82,7 @@ const FeeManagement = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/fees', newFee, {
+            await axios.post('/api/fees', newFee, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setIsAssignModalOpen(false);
@@ -98,7 +98,7 @@ const FeeManagement = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:5000/api/fees/${paymentData.feeId}/pay`, paymentData, {
+            await axios.put(`/api/fees/${paymentData.feeId}/pay`, paymentData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setIsPaymentModalOpen(false);
@@ -118,7 +118,7 @@ const FeeManagement = () => {
     const downloadReceipt = async (feeId, transactionId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/fees/${feeId}/receipt/${transactionId}`, {
+            const response = await axios.get(`/api/fees/${feeId}/receipt/${transactionId}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob', // Important for handling binary data
             });

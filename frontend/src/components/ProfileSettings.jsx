@@ -29,7 +29,7 @@ const ProfileSettings = () => {
         setMessage(null);
         try {
             const token = localStorage.getItem('token');
-            const { data } = await axios.put('http://localhost:5000/api/auth/profile', formData, {
+            const { data } = await axios.put('/api/auth/profile', formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             

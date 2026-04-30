@@ -20,7 +20,7 @@ const FeeStatus = () => {
     const fetchMyFees = async () => {
         try {
             const token = localStorage.getItem('token');
-            const { data } = await axios.get('http://localhost:5000/api/fees/myfees', {
+            const { data } = await axios.get('/api/fees/myfees', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const fetchedFees = data.data;
@@ -49,7 +49,7 @@ const FeeStatus = () => {
     const downloadReceipt = async (feeId, transactionId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/fees/${feeId}/receipt/${transactionId}`, {
+            const response = await axios.get(`/api/fees/${feeId}/receipt/${transactionId}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'blob', // Important for handling binary data
             });

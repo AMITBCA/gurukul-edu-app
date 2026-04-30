@@ -16,7 +16,7 @@ const AttendanceMarking = () => {
         const fetchBatches = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const { data } = await axios.get('http://localhost:5000/api/teacher/batches', {
+                const { data } = await axios.get('/api/teacher/batches', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setBatches(data);
@@ -34,7 +34,7 @@ const AttendanceMarking = () => {
         try {
             const token = localStorage.getItem('token');
             // First get existing attendance for this date
-            const { data: existingAttendance } = await axios.get(`http://localhost:5000/api/attendance/batch/${selectedBatch}?date=${date}`, {
+            const { data: existingAttendance } = await axios.get(`/api/attendance/batch/${selectedBatch}?date=${date}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -47,7 +47,7 @@ const AttendanceMarking = () => {
             // Let's assume User model has students with batchId.
             // For now, I'll use the ones from the batch object if available.
             // To be safe, let's fetch students with role student and batchId.
-            const { data: batchStudents } = await axios.get(`http://localhost:5000/api/batches/${selectedBatch}/students`, {
+            const { data: batchStudents } = await axios.get(`/api/batches/${selectedBatch}/students`, {
                headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -78,7 +78,7 @@ const AttendanceMarking = () => {
         try {
             const token = localStorage.getItem('token');
             const promises = Object.entries(attendance).map(([studentId, status]) => 
-                axios.post('http://localhost:5000/api/attendance', {
+                axios.post('/api/attendance', {
                     studentId,
                     batchId: selectedBatch,
                     date,

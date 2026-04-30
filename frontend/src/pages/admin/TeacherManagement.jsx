@@ -15,7 +15,7 @@ const TeacherManagement = () => {
     const [formLoading, setFormLoading] = useState(false);
     const [message, setMessage] = useState(null);
 
-    const API_BASE = 'http://localhost:5000';
+    const API_BASE = '';
 
     const fetchTeachers = async () => {
         try {

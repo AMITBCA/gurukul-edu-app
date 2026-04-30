@@ -21,8 +21,8 @@ const AttendanceLogs = () => {
         try {
             const token = localStorage.getItem('token');
             const [logsRes, batchRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/attendance/all', { headers: { Authorization: `Bearer ${token}` } }),
-                axios.get('http://localhost:5000/api/batches', { headers: { Authorization: `Bearer ${token}` } })
+                axios.get('/api/attendance/all', { headers: { Authorization: `Bearer ${token}` } }),
+                axios.get('/api/batches', { headers: { Authorization: `Bearer ${token}` } })
             ]);
             
             setLogs(logsRes.data || []);

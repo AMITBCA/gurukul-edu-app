@@ -24,7 +24,7 @@ const TestManagement = () => {
         const fetchBatches = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const { data } = await axios.get('http://localhost:5000/api/teacher/batches', {
+                const { data } = await axios.get('/api/teacher/batches', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setBatches(data);
@@ -40,7 +40,7 @@ const TestManagement = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const { data } = await axios.get(`http://localhost:5000/api/tests/batch/${selectedBatch}`, {
+            const { data } = await axios.get(`/api/tests/batch/${selectedBatch}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setTests(data);
@@ -59,7 +59,7 @@ const TestManagement = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/tests', {
+            await axios.post('/api/tests', {
                 ...newTest,
                 batchId: selectedBatch
             }, {
@@ -79,7 +79,7 @@ const TestManagement = () => {
         try {
             const token = localStorage.getItem('token');
             // Fetch students for the batch
-            const { data: batchStudents } = await axios.get(`http://localhost:5000/api/batches/${selectedBatch}/students`, {
+            const { data: batchStudents } = await axios.get(`/api/batches/${selectedBatch}/students`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setStudents(batchStudents);
@@ -113,7 +113,7 @@ const TestManagement = () => {
         setSaving(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:5000/api/tests/${activeTest._id}/results`, {
+            await axios.put(`/api/tests/${activeTest._id}/results`, {
                 results: results.map(({ studentId, marksObtained, feedback }) => ({
                     studentId,
                     marksObtained: Number(marksObtained),

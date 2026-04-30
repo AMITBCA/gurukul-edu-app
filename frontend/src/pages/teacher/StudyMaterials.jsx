@@ -22,7 +22,7 @@ const StudyMaterials = () => {
         const fetchBatches = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const { data } = await axios.get('http://localhost:5000/api/teacher/batches', {
+                const { data } = await axios.get('/api/teacher/batches', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setBatches(data);
@@ -38,7 +38,7 @@ const StudyMaterials = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const { data } = await axios.get(`http://localhost:5000/api/materials/batch/${selectedBatch}`, {
+            const { data } = await axios.get(`/api/materials/batch/${selectedBatch}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMaterials(data);
@@ -72,7 +72,7 @@ const StudyMaterials = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/materials', formData, {
+            await axios.post('/api/materials', formData, {
                 headers: { 
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}` 
@@ -94,7 +94,7 @@ const StudyMaterials = () => {
         if (!window.confirm('Are you sure you want to delete this material?')) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/materials/${id}`, {
+            await axios.delete(`/api/materials/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMaterials(materials.filter(m => m._id !== id));
