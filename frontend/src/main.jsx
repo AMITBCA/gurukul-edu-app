@@ -9,7 +9,7 @@ import './index.css'
 import App from './App.jsx'
 
 // Set global axios base URL — fixes all API calls across the entire app
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || '/api';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '1099466808204-1q6o8evhj1peqo1uinu1p4oicu41rin6.apps.googleusercontent.com';
 
