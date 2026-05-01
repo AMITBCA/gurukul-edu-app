@@ -9,11 +9,12 @@ const { OAuth2Client } = require('google-auth-library');
 let googleClient;
 const getGoogleClient = () => {
     if (!googleClient) {
-        if (!process.env.GOOGLE_CLIENT_ID) {
+        const clientId = process.env.GOOGLE_CLIENT_ID || '1099466808204-1q6o8evhj1peqo1uinu1p4oicu41rin6.apps.googleusercontent.com';
+        if (!clientId) {
             console.error("CRITICAL ERROR: GOOGLE_CLIENT_ID is missing in environment variables!");
             throw new Error("Server configuration error: Google Client ID is missing.");
         }
-        googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        googleClient = new OAuth2Client(clientId);
         console.log("Google OAuth Client initialized successfully.");
     }
     return googleClient;
@@ -72,7 +73,8 @@ const registerUser = async (req, res) => {
         user.verificationTokenExpire = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
         await user.save({ validateBeforeSave: false });
 
-        const verifyUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email/${verificationToken}`;
+        const frontendUrl = process.env.FRONTEND_URL || 'https://gurukul-edu-app.onrender.com';
+        const verifyUrl = `${frontendUrl}/verify-email/${verificationToken}`;
         
         // Always log the URL for local testing
         console.log(`\n----- EMAIL VERIFICATION -----`);
@@ -239,7 +241,8 @@ const forgotPassword = async (req, res) => {
         await user.save({ validateBeforeSave: false });
 
         // Create reset URL
-        const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+        const frontendUrl = process.env.FRONTEND_URL || 'https://gurukul-edu-app.onrender.com';
+        const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
 
         const message = `You are receiving this email because you (or someone else) has requested the reset of a password.\n\nPlease make a PUT request to: \n\n ${resetUrl}`;
 
@@ -328,14 +331,15 @@ const googleLogin = async (req, res) => {
             return res.status(400).json({ message: 'Google ID Token is missing' });
         }
 
+        const clientId = process.env.GOOGLE_CLIENT_ID || '1099466808204-1q6o8evhj1peqo1uinu1p4oicu41rin6.apps.googleusercontent.com';
         const client = getGoogleClient();
-        console.log("Verifying ID Token with audience:", process.env.GOOGLE_CLIENT_ID);
+        console.log("Verifying ID Token with audience:", clientId);
         
         let ticket;
         try {
             ticket = await client.verifyIdToken({
                 idToken,
-                audience: process.env.GOOGLE_CLIENT_ID,
+                audience: clientId,
             });
             console.log("ID Token verified successfully.");
         } catch (verifyError) {
