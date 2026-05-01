@@ -373,24 +373,11 @@ const googleLogin = async (req, res) => {
         let user = await User.findOne({ email });
 
         if (!user) {
-            console.log("Creating new user for Google login...");
-            try {
-                const generatePassword = crypto.randomBytes(16).toString('hex');
-                const salt = await bcrypt.genSalt(10);
-                const hashedPassword = await bcrypt.hash(generatePassword, salt);
-
-                user = await User.create({
-                    name,
-                    email,
-                    password: hashedPassword,
-                    role: 'student',
-                    isVerified: true,
-                });
-                console.log("New user created successfully.");
-            } catch (createError) {
-                console.error("User creation failed:", createError.message);
-                return res.status(500).json({ message: 'Failed to create user account', detail: createError.message });
-            }
+            console.log("Blocking Google login for non-existent user:", email);
+            return res.status(404).json({ 
+                message: 'Account not found. Please register an account first using your email.',
+                isNewUser: true 
+            });
         } else if (!user.isVerified) {
             // Auto-verify if they login with Google
             user.isVerified = true;
