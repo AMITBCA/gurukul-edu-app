@@ -29,7 +29,8 @@ import { motion } from 'framer-motion';
 const AdminDashboard = () => {
     const { user, logout } = useContext(AuthContext);
     const [activeTab, setActiveTab] = useState('overview');
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [stats, setStats] = useState({
         studentCount: 0,
         teacherCount: 0,
@@ -70,7 +71,13 @@ const AdminDashboard = () => {
         };
     }, []);
 
-    const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+    const toggleSidebar = () => {
+        if (window.innerWidth < 1024) {
+            setIsMobileMenuOpen(!isMobileMenuOpen);
+        } else {
+            setIsSidebarOpen(!isSidebarOpen);
+        }
+    };
 
     const menuItems = [
         { id: 'overview', name: 'Overview', icon: LayoutDashboard },
@@ -158,10 +165,23 @@ const AdminDashboard = () => {
 
     return (
         <div className="h-screen w-full bg-slate-50 flex overflow-hidden font-sans selection:bg-indigo-200">
-            {/* Dark Sidebar */}
-            <aside className={`${isSidebarOpen ? 'w-72' : 'w-24'} bg-slate-950 border-r border-slate-800 transition-all duration-300 flex flex-col relative z-30 shadow-2xl shadow-indigo-900/20`}>
+            {/* Mobile Sidebar Overlay/Backdrop */}
+            {isMobileMenuOpen && (
+                <div 
+                    className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
+            )}
+
+            {/* Sidebar */}
+            <aside className={`
+                fixed inset-y-0 left-0 z-50 lg:relative lg:z-30
+                ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+                ${isSidebarOpen ? 'w-72' : 'w-24'} 
+                bg-slate-950 border-r border-slate-800 transition-all duration-300 flex flex-col shadow-2xl shadow-indigo-900/20
+            `}>
                 <div className="p-6 flex items-center justify-between border-b border-slate-800/50">
-                    {isSidebarOpen ? (
+                    {(isSidebarOpen || isMobileMenuOpen) ? (
                         <div className="flex items-center space-x-2">
                             <BookOpen size={28} className="text-indigo-500" />
                             <h1 className="text-xl font-black text-white tracking-tight">Admin<span className="text-indigo-400 opacity-80 font-medium">Panel</span></h1>
@@ -171,8 +191,12 @@ const AdminDashboard = () => {
                             <BookOpen size={28} className="text-indigo-500" />
                         </div>
                     )}
-                    <button onClick={toggleSidebar} className="p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-colors absolute -right-4 top-7 bg-slate-900 border border-slate-700 shadow-md">
+                    <button onClick={toggleSidebar} className="p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-colors absolute -right-4 top-7 bg-slate-900 border border-slate-700 shadow-md hidden lg:block">
                         {isSidebarOpen ? <X size={16} /> : <Menu size={16} />}
+                    </button>
+                    {/* Mobile Close Button */}
+                    <button onClick={() => setIsMobileMenuOpen(false)} className="lg:hidden p-2 text-slate-400 hover:text-white">
+                        <X size={24} />
                     </button>
                 </div>
 
@@ -181,7 +205,10 @@ const AdminDashboard = () => {
                         {menuItems.map((item) => (
                             <button
                                 key={item.id}
-                                onClick={() => setActiveTab(item.id)}
+                                onClick={() => {
+                                    setActiveTab(item.id);
+                                    if (window.innerWidth < 1024) setIsMobileMenuOpen(false);
+                                }}
                                 className={`w-full flex items-center p-3.5 rounded-2xl transition-all duration-200 group relative ${
                                     activeTab === item.id 
                                     ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 font-bold' 
@@ -189,10 +216,10 @@ const AdminDashboard = () => {
                                 }`}
                             >
                                 <div className={`flex items-center justify-center ${activeTab === item.id ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400'}`}>
-                                    <item.icon size={22} className={!isSidebarOpen ? 'mx-auto' : ''} />
+                                    <item.icon size={22} className={(!isSidebarOpen && !isMobileMenuOpen) ? 'mx-auto' : ''} />
                                 </div>
-                                {isSidebarOpen && <span className="ml-4 tracking-wide">{item.name}</span>}
-                                {activeTab === item.id && isSidebarOpen && (
+                                {(isSidebarOpen || isMobileMenuOpen) && <span className="ml-4 tracking-wide">{item.name}</span>}
+                                {activeTab === item.id && (isSidebarOpen || isMobileMenuOpen) && (
                                     <div className="absolute right-3 w-1.5 h-1.5 rounded-full bg-white"></div>
                                 )}
                             </button>
@@ -208,7 +235,7 @@ const AdminDashboard = () => {
                         <div className="flex justify-center w-6">
                             <LogOut size={22} className="group-hover:scale-110 transition-transform" />
                         </div>
-                        {isSidebarOpen && <span className="ml-4">Log Out</span>}
+                        {(isSidebarOpen || isMobileMenuOpen) && <span className="ml-4">Log Out</span>}
                     </button>
                 </div>
             </aside>
@@ -219,10 +246,18 @@ const AdminDashboard = () => {
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-400/10 rounded-full blur-[120px] pointer-events-none"></div>
 
                 {/* Glassmorphic Header */}
-                <header className="bg-white/70 backdrop-blur-xl border-b border-indigo-100/50 p-4 px-8 flex justify-between items-center sticky top-0 z-20 shadow-sm">
-                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">
-                        {menuItems.find(i => i.id === activeTab)?.name}
-                    </h2>
+                <header className="bg-white/70 backdrop-blur-xl border-b border-indigo-100/50 p-4 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-20 shadow-sm">
+                    <div className="flex items-center gap-4">
+                        <button 
+                            onClick={() => setIsMobileMenuOpen(true)}
+                            className="lg:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+                        >
+                            <Menu size={24} />
+                        </button>
+                        <h2 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight truncate max-w-[150px] sm:max-w-none">
+                            {menuItems.find(i => i.id === activeTab)?.name}
+                        </h2>
+                    </div>
                     <div className="flex items-center space-x-5">
                         <div className="text-right">
                             <p className="text-sm font-black text-slate-900 leading-tight">{user?.name || 'Administrator'}</p>

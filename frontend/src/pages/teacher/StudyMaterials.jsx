@@ -113,17 +113,17 @@ const StudyMaterials = () => {
 
     return (
         <div className="space-y-6">
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="bg-white p-4 sm:p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h3 className="text-xl font-bold text-slate-800">Study Materials</h3>
-                    <p className="text-sm text-slate-500">Manage learning resources for your students</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-800">Study Materials</h3>
+                    <p className="text-xs sm:text-sm text-slate-500">Manage learning resources for your students</p>
                 </div>
                 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <select 
                         value={selectedBatch}
                         onChange={(e) => setSelectedBatch(e.target.value)}
-                        className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-semibold text-slate-700"
+                        className="flex-1 md:flex-none px-3 py-2 sm:px-4 sm:py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs sm:text-sm font-semibold text-slate-700"
                     >
                         <option value="">Select Batch</option>
                         {batches.map(b => (
@@ -134,10 +134,10 @@ const StudyMaterials = () => {
                     <button 
                         onClick={() => setIsModalOpen(true)}
                         disabled={!selectedBatch}
-                        className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center gap-2"
+                        className="flex-1 md:flex-none bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white px-4 py-2 sm:px-6 sm:py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 text-xs sm:text-base"
                     >
-                        <Plus size={20} />
-                        <span>Upload New</span>
+                        <Plus size={18} />
+                        <span className="whitespace-nowrap">Upload New</span>
                     </button>
                 </div>
             </div>
