@@ -23,7 +23,8 @@ const getGoogleClient = () => {
 
 // Generate JWT
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+    const secret = process.env.JWT_SECRET || 'gurukul_fallback_secret_for_production_2026';
+    return jwt.sign({ id }, secret, {
         expiresIn: '30d',
     });
 };

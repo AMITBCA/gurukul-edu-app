@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
             return { success: true, message: res.data.message };
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');
-            return { success: false };
+            return { success: false, message: err.response?.data?.message || 'Registration failed' };
         }
     }, []);
 
@@ -102,7 +102,8 @@ export const AuthProvider = ({ children }) => {
             setUser(res.data);
             return true;
         } catch (err) {
-            setError(err.response?.data?.message || 'Google Login failed');
+            const errorMsg = err.response?.data?.message || err.message || 'Google Login failed';
+            setError(errorMsg);
             return false;
         }
     }, []);
