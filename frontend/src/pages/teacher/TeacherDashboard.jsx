@@ -241,7 +241,7 @@ const TeacherDashboard = () => {
             <aside className={`
                 fixed inset-y-0 left-0 z-50 lg:relative lg:z-30
                 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-                ${isSidebarOpen ? 'w-72' : 'w-24'} 
+                ${(isSidebarOpen || isMobileMenuOpen) ? 'w-72' : 'w-24'} 
                 bg-slate-950 border-r border-slate-800 transition-all duration-300 flex flex-col shadow-2xl shadow-indigo-900/20
             `}>
                 <div className="p-6 flex items-center justify-between border-b border-slate-800/50">
