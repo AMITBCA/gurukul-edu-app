@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Lock, Mail, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck, CheckCircle2, Home, ArrowLeft } from 'lucide-react';
 import logo from '../assets/logo.png';
 import { motion } from 'framer-motion';
 import { GoogleLogin } from '@react-oauth/google';
@@ -103,6 +103,12 @@ const Login = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
+                            <Link to="/" className="inline-flex items-center text-sm font-bold text-slate-500 hover:text-indigo-600 transition-all mb-6 group">
+                                <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors mr-3">
+                                    <Home size={16} />
+                                </div>
+                                Back to Home
+                            </Link>
                             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-2 tracking-tight">Sign In</h2>
                             <p className="text-slate-500 font-medium mb-10 text-sm sm:text-base">Enter your credentials to securely access your account.</p>
 
